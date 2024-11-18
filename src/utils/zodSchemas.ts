@@ -19,15 +19,14 @@ const otpSchema = z.object({
 
 const spaceSchema = z.object({
   name: z.string().min(3),
+  workspaceId: z.string(),
   description: z.string().optional(),
-  workspaceId: z.string().optional(),
 });
 
 const listSchema = z.object({
   name: z.string().min(3, "List name must be at least 3 characters"),
   description: z.string().optional(),
   color: z.string().optional(),
-  task: z.array(z.string()).optional(),
   spaceId: z.string().optional(),
 });
 
@@ -59,6 +58,23 @@ const inviteSchema = z.object({
   email: z.string().email(),
 });
 
+const createTasksSchema = z.object({
+  title: z.string().min(3, "Task name must be at least 3 characters"),
+  description: z.string().optional(),
+  listId: z.string(),
+  dueDate: z.date().optional(),
+  priority: z.string().optional(),
+  assignedTo: z.string().optional(),
+});
+const updateTaskSchema = z.object({
+  title: z.string().optional(),
+  description: z.string().optional(),
+  listId: z.string(),
+  dueDate: z.date().optional(),
+  priority: z.string().optional(),
+  assignedTo: z.string().optional(),
+});
+
 export {
   loginSchema,
   registerSchema,
@@ -70,4 +86,6 @@ export {
   workspaceSchema,
   inviteSchema,
   editUserDetails,
+  createTasksSchema,
+  updateTaskSchema,
 };
