@@ -258,7 +258,6 @@ const resetPassword = async (req: Request, res: Response) => {
 	const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY || "") as {
 		id: string;
 	};
-	console.log(decoded);
 
 	const user = await User.findById(decoded.id);
 

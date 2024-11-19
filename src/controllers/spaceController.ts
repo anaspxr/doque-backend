@@ -2,11 +2,22 @@ import type { Request, Response } from "express";
 import { Space } from "../models/spaceModel";
 import { StandardResponse } from "../utils/standardResponse";
 import { CustomError } from "../utils/error/customError";
+import Workspace from "../models/workspaceModel";
 
 //create a new space
 export const createSpace = async (req: Request, res: Response) => {
 	const { name, description } = req.body;
 	const { workspaceId } = req.query;
+
+	if (!workspaceId) {
+		throw new CustomError("Workspace ID is required");
+	}
+
+	const workspace = await Workspace.findById(workspaceId);
+
+	if (!workspace) {
+		throw new CustomError("Workspace not found");
+	}
 
 	const newSpace = new Space({
 		name,
@@ -15,7 +26,7 @@ export const createSpace = async (req: Request, res: Response) => {
 		lists: [],
 	});
 
-	await newSpace.save();
+	await Promise.all([newSpace.save(), workspace.updateOne({ $push: { spaces: newSpace._id } })]);
 
 	res.status(201).json(new StandardResponse("Space created successfully", newSpace, 201));
 };
@@ -55,9 +66,11 @@ export const updateSpaceById = async (req: Request, res: Response) => {
 //delete a specific space by id
 export const deleteSpaceById = async (req: Request, res: Response) => {
 	const { id } = req.params;
+
 	const deletedSpace = await Space.findByIdAndDelete(id);
 	if (!deletedSpace) {
 		throw new CustomError("Space not found");
 	}
-	res.status(200).json(new StandardResponse("Space deleted successfully", deletedSpace, 200));
+	await Workspace.findByIdAndUpdate(deletedSpace.workspaceId, { $pull: { spaces: id } });
+	res.status(200).json(new StandardResponse("Space deleted successfully"));
 };

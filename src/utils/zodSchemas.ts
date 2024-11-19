@@ -19,7 +19,6 @@ const otpSchema = z.object({
 
 const spaceSchema = z.object({
 	name: z.string().min(3),
-	workspaceId: z.string(),
 	description: z.string().optional(),
 });
 
