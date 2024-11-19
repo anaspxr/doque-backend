@@ -72,7 +72,7 @@ export const updateWorkspace = async (req: CustomRequest, res: Response) => {
 
 	const updated = await workspace.updateOne({ $set: updateWorkspace }, { new: true });
 
-	res.status(200).json(new StandardResponse("Updated workspace successfully", updated));
+	res.status(200).json(new StandardResponse(" Workspace updated successfully", updated));
 };
 
 export const deleteWorkspace = async (req: CustomRequest, res: Response) => {
@@ -90,7 +90,7 @@ export const deleteWorkspace = async (req: CustomRequest, res: Response) => {
 
 	await workspace.deleteOne();
 
-	res.status(204).json(new StandardResponse("Deleted workspace successfully"));
+	res.status(204).json(new StandardResponse("Workspace deleted successfully"));
 };
 
 export const getInvitedMembers = async (req: Request, res: Response) => {
@@ -105,7 +105,7 @@ export const getInvitedMembers = async (req: Request, res: Response) => {
 
 	const pendingMembers = workspace.pendingMembers;
 
-	res.status(200).json(new StandardResponse("Fetched members successfully", { members, pendingMembers }));
+	res.status(200).json(new StandardResponse("Members fetched Successfully", { members, pendingMembers }));
 };
 
 export const acceptInvitation = async (req: CustomRequest, res: Response) => {
