@@ -7,6 +7,7 @@ import jwt from "jsonwebtoken";
 import mailSender from "../utils/mailSender";
 import { Otp } from "../models/otpModel";
 import otpGenerator from "otp-generator";
+import Workspace from "../models/workspaceModel";
 
 //Register user
 const register = async (req: Request, res: Response) => {
@@ -98,11 +99,14 @@ const login = async (req: Request, res: Response) => {
 			},
 		);
 
+		const workspaces = await Workspace.find({ createdBy: user.id });
+
 		const response = {
 			userId: user._id,
 			firstName: user.firstName,
 			lastName: user.lastName,
 			email: user.email,
+			newUser: workspaces.length === 0,
 			token,
 		};
 
