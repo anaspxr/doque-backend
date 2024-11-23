@@ -21,7 +21,7 @@ const port = process.env.PORT || 3001;
 app.use(express.json());
 
 app.get("/", (_req, res) => {
-	res.send("Hello World!");
+  res.send("Hello World!");
 });
 app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 
@@ -36,12 +36,12 @@ app.use("/api/workspace", workspaceRoutes);
 app.use(globalErrorHandler);
 
 mongoose
-	.connect(process.env.MONGO_URI || "")
-	.then(() => {
-		server.listen(port, () => {
-			console.log(`Server is running on port ${port}`);
-		});
-	})
-	.catch((err) => {
-		console.error(err);
-	});
+  .connect(process.env.MONGO_URI || "")
+  .then(() => {
+    server.listen(port, () => {
+      console.log(`Server is running on port ${port}`);
+    });
+  })
+  .catch((err) => {
+    console.error(err);
+  });
