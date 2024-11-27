@@ -100,7 +100,6 @@ export const taskAssignedToUser = async (req: Request, res: Response) => {
 
 		res.status(200).json(new StandardResponse("Tasks assigned to the user retrieved successfully", tasksWithDetails));
 	} catch (error) {
-		console.error("Error retrieving tasks:", error);
 		throw new CustomError("Internal server error", 500);
 	}
 };

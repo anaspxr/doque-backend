@@ -14,8 +14,7 @@ const io = new Server(server, {
 });
 
 io.on("connection", async (socket) => {
-	console.log("A user connected");
-
+	if (process.env.NODE_ENV === "development") console.log("User connected");
 	socket.on("sendMessage", async (message) => {
 		try {
 			const chat = await Chat.findOne({ workspaceId: message?.workSpaceId });
@@ -52,6 +51,6 @@ io.on("connection", async (socket) => {
 	});
 
 	socket.on("disconnect", () => {
-		console.log("User disconnected");
+		if (process.env.NODE_ENV === "development") console.log("User disconnected");
 	});
 });

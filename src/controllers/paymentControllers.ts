@@ -47,7 +47,6 @@ export const createPaymentIntent = async (req: CustomRequest, res: Response, nex
 			.status(200)
 			.json(new StandardResponse("Payment intent created successfully", { clientSecret: session.client_secret }));
 	} catch (error) {
-		console.error("Error creating payment intent:", error);
 		next(new CustomError((error as Error).message || "Failed to create payment intent", 500));
 	}
 };
@@ -56,8 +55,6 @@ export const createPaymentIntent = async (req: CustomRequest, res: Response, nex
 export const getPaymentDetails = async (req: CustomRequest, res: Response, next: NextFunction): Promise<void> => {
 	try {
 		const { sessionId } = req.params;
-
-		console.log(sessionId);
 
 		const payment = await PaymentModel.findOne({ sessionId });
 

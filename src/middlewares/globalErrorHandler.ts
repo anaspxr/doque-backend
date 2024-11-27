@@ -18,7 +18,7 @@ export const globalErrorHandler = (
 	res: Response,
 	_next: NextFunction,
 ) => {
-	console.log(error);
+	if (process.env.NODE_ENV === "development") console.log(error);
 
 	if (error instanceof CustomError) {
 		errorResponse(error, res);
